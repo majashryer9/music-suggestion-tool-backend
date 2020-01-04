@@ -9,12 +9,13 @@ export const saveSongsWithPlaylistId = async (playlist: IPlaylist) => {
             { index: { _index: 'songs' } },
             {
                 songName: song.songName,
+                artistName: song.artistName,
                 playlistId: playlist.id
             }
         )
     );
     try {
-        client.bulk({ refresh: "true", body });
+        client.bulk({ refresh: 'true', body });
     } catch (error) {
         console.error(error);
     }

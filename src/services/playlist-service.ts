@@ -3,6 +3,7 @@ import * as songDao from '../daos/song-dao';
 import { IPlaylist } from '../models/Playlist';
 import { errorHandler } from '../util/error-handler';
 import { ISong } from '../models/Song';
+import { findNMostPopularSongs } from '../util/reusable-functions/findNMostPopularSongs';
 
 export const savePlaylist = async (playlist: IPlaylist) => {
     try {
@@ -25,8 +26,9 @@ export const getRelatedSongs = async (spotifyTrackIds: string[]) => {
                     .filter(song => !spotifyTrackIds.some(spotifyTrackId => spotifyTrackId === song.spotifyTrackId))
             )
         );
-        // TODO: Count up most frequently occurring and return those
-        return songsFromPlaylists;
+        const mostPopularSongs = findNMostPopularSongs(songsFromPlaylists, 10);
+        // TODO: If not enough songs returned from findNMostPopularSongs, call spotify recommendations 
+        return mostPopularSongs;
     } catch (error) {
         return errorHandler(error);
     }
