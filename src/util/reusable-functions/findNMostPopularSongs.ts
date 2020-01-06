@@ -27,14 +27,17 @@ export const findNMostPopularSongs = (songs: ISong[], N: number) => {
             );
         }
     });
-    const sortedKeys = Array.from(idToSongAndNumOccurrences.keys()).sort((keyA, keyB) => {
-        const songAndNumOccurrencesA = idToSongAndNumOccurrences.get(keyA);
-        const songAndNumOccurrencesB = idToSongAndNumOccurrences.get(keyB);
-        if (songAndNumOccurrencesA && songAndNumOccurrencesB) {
-            return songAndNumOccurrencesB.numOccurrences - songAndNumOccurrencesA.numOccurrences;
-        }
-        return 0;
-    });
+    const sortedKeys = Array.from(idToSongAndNumOccurrences.keys())
+        .sort(
+            (keyA, keyB) => {
+                const songAndNumOccurrencesA = idToSongAndNumOccurrences.get(keyA);
+                const songAndNumOccurrencesB = idToSongAndNumOccurrences.get(keyB);
+                if (songAndNumOccurrencesA && songAndNumOccurrencesB) {
+                    return songAndNumOccurrencesB.numOccurrences - songAndNumOccurrencesA.numOccurrences;
+                }
+                return 0;
+            }
+        );
     const nMostPopularSongs: ISong[] = [];
     const n = sortedKeys.length < N ? sortedKeys.length : N;
     for (let i = 0; i < n; i++) {
