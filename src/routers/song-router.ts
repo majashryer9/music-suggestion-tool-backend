@@ -22,3 +22,13 @@ songRouter.post('/spotify-song-search', async (req: Request, resp: Response) => 
         resp.status(400).json('Must include a search term.');
     }
 });
+
+songRouter.post('/recommendations', async (req: Request, resp: Response) => {
+    const spotifyTrackIds: undefined | string[] = req.body.spotifyTrackIds;
+    if (Array.isArray(spotifyTrackIds)) {
+        const songRecommendations = spotifyTrackIds.length ? await songService.getSongRecommendations(req.body.spotifyTrackIds) : [];
+        resp.json(songRecommendations);
+    } else {
+        resp.status(400).json('Must include spotify track ids.');
+    }
+});

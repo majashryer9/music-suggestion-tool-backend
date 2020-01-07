@@ -32,3 +32,12 @@ export const spotifySongSearch = async (searchTerm: string) => {
         return errorHandler(error);
     }
 }
+
+export const getSongRecommendations = async (spotifyTrackIds: string[]) => {
+    try {
+        const songRecommendations = await spotifyService.getRecommendations(spotifyTrackIds);
+        return songRecommendations.map(spotifyTrack => spotifyTrackMapper(spotifyTrack));
+    } catch (error) {
+        return errorHandler(error);
+    }
+}

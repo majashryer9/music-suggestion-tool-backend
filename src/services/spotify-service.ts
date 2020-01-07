@@ -27,9 +27,28 @@ export const search = async (searchTerm: string) => {
             }
         }
         return axios.get(url, config).then(result => {
-            const spotifySongSearchResults: SpotifyTrack[] = result.data.tracks.items;
-            return spotifySongSearchResults;
+            const searchResults: SpotifyTrack[] = result.data.tracks.items;
+            return searchResults;
         });
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const getRecommendations = async (spotifyTrackIds: string[]) => {
+    try {
+        const accessToken = await getAccessToken();
+        const url = `https://api.spotify.com/v1/recommendations?market=US&seed_tracks=${spotifyTrackIds.join('%2C')}`;
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        }
+        return axios.get(url, config)
+            .then(result => {
+                const songRecommendations: SpotifyTrack[] = result.data.tracks;
+                return songRecommendations;
+            });
     } catch (error) {
         throw error;
     }
