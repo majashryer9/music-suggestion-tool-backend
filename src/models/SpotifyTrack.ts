@@ -16,4 +16,5 @@ export interface SpotifyTrack {
     name: string;
     artists: SpotifyArtist[];
     album: SpotifyAlbum;
+    preview_url: string;
 }

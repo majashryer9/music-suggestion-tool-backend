@@ -5,6 +5,7 @@ export const spotifyTrackMapper = (spotifyTrack: SpotifyTrack) => {
         artistName: spotifyTrack.artists.length ? spotifyTrack.artists[0].name : '',
         songName: spotifyTrack.name,
         spotifyTrackId: spotifyTrack.id,
-        albumImageUrl: spotifyTrack.album.images.length ? spotifyTrack.album.images[0].url : ''
+        albumImageUrl: spotifyTrack.album.images.length ? spotifyTrack.album.images[0].url : '',
+        songPreviewUrl: spotifyTrack.preview_url
     };
 }
