@@ -18,3 +18,13 @@ playlistRouter.post('/image', async (req: Request, resp: Response) => {
     const playlistImageUrl = await playlistService.getPlaylistImageUrl(req.body.query);
     resp.json(playlistImageUrl);
 });
+
+playlistRouter.post('/playlists-containing-song', async (req: Request, resp: Response) => {
+    const songName: undefined | string = req.body.songName;
+    if (typeof songName === 'string') {
+        const playlistsContainingSong = await playlistService.getPlaylistsContainingSong(songName);
+        resp.json(playlistsContainingSong);
+    } else {
+        resp.status(400).json('Must include a song name.')
+    }
+});

@@ -21,3 +21,14 @@ export const getPlaylistImageUrl = async (query?: string) => {
         return errorHandler(error);
     }
 }
+
+export const getPlaylistsContainingSong = async (songName: string) => {
+    try {
+        const elasticSearchResults = await songDao.searchForSongs(songName);
+        const uniquePlaylistIds = new Set(elasticSearchResults.map(result => result.playlistId));
+        const playlistsContainingSongs = await Promise.all(Array.from(uniquePlaylistIds).map(playlistId => playlistDao.getPlaylistById(playlistId)));
+        return playlistsContainingSongs;
+    } catch (error) {
+        return errorHandler(error);
+    }
+}
