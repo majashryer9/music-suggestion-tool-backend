@@ -25,8 +25,10 @@ export const searchForSongs = async (songName: string) => {
             index: 'songs',
             body: {
                 query: {
-                    match: {
-                        songName
+                    wildcard: {
+                        songName: {
+                            value: `*${songName}*`
+                        }
                     }
                 }
             }
