@@ -14,9 +14,6 @@ export const saveSongsWithPlaylistId = async (playlist: IPlaylist) => {
             }
         )
     );
-    try {
-        client.bulk({ refresh: 'true', body });
-    } catch (error) {
-        console.error(error);
-    }
+    client.bulk({ refresh: 'true', body })
+        .catch(error => console.error(error));
 }

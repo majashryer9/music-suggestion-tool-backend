@@ -13,3 +13,8 @@ playlistRouter.post('/save', async (req: Request, resp: Response) => {
         resp.status(400).json('Must include a playlist to save.')
     }
 });
+
+playlistRouter.post('/image', async (req: Request, resp: Response) => {
+    const playlistImageUrl = await playlistService.getPlaylistImageUrl(req.body.query);
+    resp.json(playlistImageUrl);
+});
