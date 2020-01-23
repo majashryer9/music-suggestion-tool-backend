@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
 import { ISong, Song } from './Song';
 
-export interface IPlaylist extends mongoose.Document {
+export interface IPlaylist {
+    _id: string;
     songs: ISong[];
 }
 
@@ -11,4 +12,4 @@ const playlistSchema = new mongoose.Schema<IPlaylist>({
     }
 });
 
-export const Playlist = mongoose.model<IPlaylist>('Playlist', playlistSchema);
+export const Playlist = mongoose.model('Playlist', playlistSchema);

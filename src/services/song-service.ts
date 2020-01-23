@@ -17,10 +17,13 @@ export const getRelatedSongs = async (spotifyTrackIds: string[]) => {
             )
         );
         const mostPopularSongs = findNMostPopularSongs(songsFromPlaylists, 10);
-        // TODO: If not enough songs returned from findNMostPopularSongs, call spotify recommendations 
+        if (spotifyTrackIds.length <= 5) {
+            const additionalSongRecommendations = await getSongRecommendations(spotifyTrackIds);
+            mostPopularSongs.concat(additionalSongRecommendations);
+        }
         return mostPopularSongs;
     } catch (error) {
-        return errorHandler(error);
+        throw errorHandler(error);
     }
 }
 
@@ -29,7 +32,7 @@ export const spotifySongSearch = async (searchTerm: string) => {
         const searchResults = await spotifyService.search(searchTerm);
         return searchResults.map(spotifyTrack => spotifyTrackMapper(spotifyTrack));
     } catch (error) {
-        return errorHandler(error);
+        throw errorHandler(error);
     }
 }
 
@@ -38,6 +41,6 @@ export const getSongRecommendations = async (spotifyTrackIds: string[]) => {
         const songRecommendations = await spotifyService.getRecommendations(spotifyTrackIds);
         return songRecommendations.map(spotifyTrack => spotifyTrackMapper(spotifyTrack));
     } catch (error) {
-        return errorHandler(error);
+        throw errorHandler(error);
     }
 }

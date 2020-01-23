@@ -10,7 +10,7 @@ export const savePlaylist = async (playlist: IPlaylist) => {
         songDao.saveSongsWithPlaylistId(savedPlaylist);
         return savedPlaylist._id;
     } catch (error) {
-        return errorHandler(error);
+        throw errorHandler(error);
     }
 }
 
@@ -18,7 +18,7 @@ export const getPlaylistImageUrl = async (query?: string) => {
     try {
         return await unsplashService.getUnsplashPhoto(query);
     } catch (error) {
-        return errorHandler(error);
+        throw errorHandler(error);
     }
 }
 
@@ -29,6 +29,6 @@ export const getPlaylistsContainingSong = async (songName: string) => {
         const playlistsContainingSongs = await Promise.all(Array.from(uniquePlaylistIds).map(playlistId => playlistDao.getPlaylistById(playlistId)));
         return playlistsContainingSongs;
     } catch (error) {
-        return errorHandler(error);
+        throw errorHandler(error);
     }
 }

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-export interface ISong extends mongoose.Document {
+export interface ISong {
     artistName: string;
     songName: string;
     spotifyTrackId: string;
@@ -29,4 +29,4 @@ const songSchema = new mongoose.Schema<ISong>({
     }
 });
 
-export const Song = mongoose.model<ISong>('Song', songSchema);
+export const Song = mongoose.model('Song', songSchema);

@@ -11,7 +11,7 @@ export const saveSongsWithPlaylistId = async (playlist: IPlaylist) => {
             {
                 songName: song.songName,
                 artistName: song.artistName,
-                playlistId: playlist.id
+                playlistId: playlist._id
             }
         )
     );
