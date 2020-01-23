@@ -16,12 +16,9 @@ export const getRelatedSongs = async (spotifyTrackIds: string[]) => {
                     .filter(song => !spotifyTrackIds.some(spotifyTrackId => spotifyTrackId === song.spotifyTrackId))
             )
         );
-        const mostPopularSongs = findNMostPopularSongs(songsFromPlaylists, 10);
-        if (spotifyTrackIds.length <= 5) {
-            const additionalSongRecommendations = await getSongRecommendations(spotifyTrackIds);
-            mostPopularSongs.concat(additionalSongRecommendations);
-        }
-        return mostPopularSongs;
+        const relatedSongs = findNMostPopularSongs(songsFromPlaylists, 10)
+            .concat(await getSongRecommendations(spotifyTrackIds));
+        return relatedSongs;
     } catch (error) {
         throw errorHandler(error);
     }
