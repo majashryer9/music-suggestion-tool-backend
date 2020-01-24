@@ -4,6 +4,16 @@ import { IPlaylist } from '../models/Playlist';
 
 export const playlistRouter = Router();
 
+playlistRouter.post('/get-next', async (req: Request, resp: Response) => {
+    const { n, lastTimestamp } = req.body;
+    if (typeof n === 'number' && typeof lastTimestamp === 'number') {
+        const playlists = await playlistService.getNextNPlaylists(n, lastTimestamp);
+        resp.json(playlists);
+    } else {
+        resp.status(400).json('Must include a limit and a last timestamp.')
+    }
+})
+
 playlistRouter.post('/save', async (req: Request, resp: Response) => {
     const playlist: undefined | IPlaylist = req.body.playlist;
     if (playlist) {
