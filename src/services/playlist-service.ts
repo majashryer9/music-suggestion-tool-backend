@@ -39,7 +39,7 @@ export const savePlaylist = async (playlist: IPlaylist) => {
     try {
         playlist.timestamp = Date.now();
         const savedPlaylist = await playlistDao.savePlaylist(playlist);
-        songDao.saveSongsWithPlaylistId(savedPlaylist);
+        songDao.saveSongsWithPlaylistId(savedPlaylist.songs);
         return savedPlaylist._id;
     } catch (error) {
         throw errorHandler(error);
@@ -49,17 +49,6 @@ export const savePlaylist = async (playlist: IPlaylist) => {
 export const getPlaylistImageUrl = async (query?: string) => {
     try {
         return await unsplashService.getUnsplashPhoto(query);
-    } catch (error) {
-        throw errorHandler(error);
-    }
-}
-
-export const getPlaylistsContainingSong = async (songName: string) => {
-    try {
-        const elasticSearchResults = await songDao.searchForSongs(songName);
-        const uniquePlaylistIds = new Set(elasticSearchResults.map(result => result.playlistId));
-        const playlistsContainingSongs = await Promise.all(Array.from(uniquePlaylistIds).map(playlistId => playlistDao.getPlaylistById(playlistId)));
-        return playlistsContainingSongs;
     } catch (error) {
         throw errorHandler(error);
     }

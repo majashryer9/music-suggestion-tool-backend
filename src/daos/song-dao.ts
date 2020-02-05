@@ -1,17 +1,18 @@
-import { IPlaylist } from '../models/Playlist';
 import { client } from '../util/elasticsearch-util';
-import { ElasticSongSearchResult } from '../models/ElasticSearchResult';
+import { ElasticSongSearchResult } from '../models/ElasticSongSearchResult';
+import { ISong } from '../models/Song';
 
-// Save songs to elasticsearch so we can search for playlists by song name
-export const saveSongsWithPlaylistId = async (playlist: IPlaylist) => {
+// Save songs to elasticsearch so we can search for songs that are actually in Mongo
+export const saveSongsWithPlaylistId = async (songs: ISong[]) => {
     const body: Object[] = [];
-    playlist.songs.forEach(song =>
+    songs.forEach(song =>
         body.push(
             { index: { _index: 'songs' } },
             {
                 songName: song.songName,
                 artistName: song.artistName,
-                playlistId: playlist._id
+                spotifyTrackId: song.spotifyTrackId,
+                albumImageUrl: song.albumImageUrl
             }
         )
     );
@@ -19,16 +20,15 @@ export const saveSongsWithPlaylistId = async (playlist: IPlaylist) => {
         .catch(error => console.error(error));
 }
 
-export const searchForSongs = async (songName: string) => {
+export const searchForSongsBySongNameOrArtistName = async (query: string) => {
     try {
         const searchResults = await client.search({
             index: 'songs',
             body: {
                 query: {
-                    wildcard: {
-                        songName: {
-                            value: `*${songName}*`
-                        }
+                    multi_match: {
+                        query,
+                        fields: ['songName', 'artistName']
                     }
                 }
             }

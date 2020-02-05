@@ -35,14 +35,3 @@ export const getAllPlaylistsContainingSongs = (spotifyTrackIds: string[]) => {
         });
     });
 }
-
-export const getPlaylistById = (playlistId: string) => {
-    return new Promise<IPlaylist>((resolve, reject) => {
-        Playlist.findById(playlistId, (error: Error, playlist: IPlaylist) => {
-            if (error) {
-                reject(error);
-            }
-            resolve(playlist);
-        });
-    });
-}

@@ -5,7 +5,7 @@ export interface ISong {
     songName: string;
     spotifyTrackId: string;
     albumImageUrl: string;
-    songPreviewUrl: string;
+    songPreviewUrl: string | null;
 }
 
 const songSchema = new mongoose.Schema<ISong>({

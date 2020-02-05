@@ -24,3 +24,14 @@ songRouter.post('/recommendations', async (req: Request, resp: Response) => {
         resp.status(400).json('Must include spotify track ids.');
     }
 });
+
+songRouter.post('/search', async (req: Request, resp: Response) => {
+    const searchTerm: undefined | string = req.body.searchTerm;
+    if (typeof searchTerm === 'string') {
+        // TODO: Catch and send errors
+        const searchResults = searchTerm.length ? await songService.getSongsMatchingQuery(searchTerm) : [];
+        resp.json(searchResults);
+    } else {
+        resp.status(400).json('Must include a song name.')
+    }
+})
