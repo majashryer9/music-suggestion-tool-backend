@@ -53,3 +53,11 @@ export const getPlaylistImageUrl = async (query?: string) => {
         throw errorHandler(error);
     }
 }
+
+export const getAllPlaylistsContainingSongs = async (spotifyTrackIds: string[]) => {
+    try {
+        return await playlistDao.getAllPlaylistsContainingSongs(spotifyTrackIds);
+    } catch (error) {
+        throw errorHandler(error);
+    }
+}

@@ -41,3 +41,14 @@ playlistRouter.post('/image', async (req: Request, resp: Response) => {
     const playlistImageUrl = await playlistService.getPlaylistImageUrl(req.body.query);
     resp.json(playlistImageUrl);
 });
+
+playlistRouter.post('/get-containing-songs', async (req: Request, resp: Response) => {
+    const spotifyTrackIds: undefined | string[] = req.body.spotifyTrackIds;
+    if (Array.isArray(spotifyTrackIds)) {
+        // TODO: Catch and send errors
+        const playlists = spotifyTrackIds.length ? await playlistService.getAllPlaylistsContainingSongs(spotifyTrackIds) : [];
+        resp.json(playlists);
+    } else {
+        resp.status(400).json('Must include spotify track ids.');
+    }
+});
